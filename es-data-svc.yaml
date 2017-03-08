@@ -5,6 +5,7 @@ metadata:
   labels:
     component: elasticsearch
     role: data
+  namespace: {{ namespace }}
 spec:
   ports:
   - port: 9300

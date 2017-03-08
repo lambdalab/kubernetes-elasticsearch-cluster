@@ -5,6 +5,19 @@ metadata:
   labels:
     component: elasticsearch
     role: client
+  namespace: {{ namespace }}
+  annotations:
+    pod.beta.kubernetes.io/init-containers: '[
+      {
+      "name": "sysctl",
+        "image": "busybox",
+        "imagePullPolicy": "IfNotPresent",
+        "command": ["sysctl", "-w", "vm.max_map_count=262144"],
+        "securityContext": {
+          "privileged": true
+        }
+      }
+    ]'
 spec:
   replicas: 2
   template:
@@ -12,18 +25,6 @@ spec:
       labels:
         component: elasticsearch
         role: client
-      annotations:
-        pod.beta.kubernetes.io/init-containers: '[
-          {
-          "name": "sysctl",
-            "image": "busybox",
-            "imagePullPolicy": "IfNotPresent",
-            "command": ["sysctl", "-w", "vm.max_map_count=262144"],
-            "securityContext": {
-              "privileged": true
-            }
-          }
-        ]'
     spec:
       containers:
       - name: es-client

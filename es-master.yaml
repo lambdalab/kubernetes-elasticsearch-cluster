@@ -5,6 +5,25 @@ metadata:
   labels:
     component: elasticsearch
     role: master
+  annotations:
+    scheduler.alpha.kubernetes.io/affinity: >
+        {
+          "nodeAffinity": {
+            "preferredDuringSchedulingIgnoredDuringExecution": {
+              "nodeSelectorTerms": [
+                {
+                  "matchExpressions": [
+                    {
+                      "key": "NodeType",
+                      "operator": "In",
+                      "values": ["{{ preferred_node }}"]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
 spec:
   replicas: 3
   template:
