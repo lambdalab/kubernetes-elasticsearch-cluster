@@ -5,6 +5,7 @@ metadata:
   labels:
     component: elasticsearch
     role: master
+  namespace: {{ namespace }}
   annotations:
     scheduler.alpha.kubernetes.io/affinity: >
         {

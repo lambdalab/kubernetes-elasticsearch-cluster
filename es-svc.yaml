@@ -5,6 +5,7 @@ metadata:
   labels:
     component: elasticsearch
     role: client
+  namespace: {{ namespace }}
 spec:
   type: ClusterIP
   selector:
