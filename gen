@@ -1,0 +1,39 @@
+#!/bin/bash
+
+export NAMESPACE=$1
+
+export SCRIPT_DIR=$(dirname $0)
+export KUBE_DIR=$(dirname $0)/../..
+
+echo "generate elasticsearch kube configs for $NAMESPACE"
+
+mkdir -p $KUBE_DIR/$NAMESPACE/gen/elasticsearch
+rm -f $KUBE_DIR/$NAMESPACE/gen/elasticsearch/*
+
+export CONFIG_VERSION=dummy
+export GIT_VERSION=dummy
+CONFIG=$(j2 $SCRIPT_DIR/../template-configs/$NAMESPACE.yml)
+
+for file in $SCRIPT_DIR/*.yaml
+do
+	dst=`basename $file`
+	dst=$KUBE_DIR/$NAMESPACE/gen/elasticsearch/$dst
+
+	echo "Processing yaml: $file to $dst"
+
+	echo "$CONFIG" | j2 --format=yaml $file  > $dst
+	echo "" >>  $dst
+done
+
+
+# for file in $SCRIPT_DIR/*.sh
+# do
+# 	dst=`basename $file`
+# 	dst=$KUBE_DIR/$NAMESPACE/gen/elasticsearch/$dst
+
+# 	echo "Processing yaml: $file to $dst"
+
+# 	echo "$CONFIG" | j2 --format=yaml $file  > $dst
+# 	echo "" >>  $dst
+# 	chmod +x $dst
+# done
