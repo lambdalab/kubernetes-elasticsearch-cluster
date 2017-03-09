@@ -3,6 +3,25 @@ kind: CronJob
 metadata:
   name: curator
   namespace: {{ namespace }}
+  annotations:
+    scheduler.alpha.kubernetes.io/affinity: >
+        {
+          "nodeAffinity": {
+            "preferredDuringSchedulingIgnoredDuringExecution": {
+              "nodeSelectorTerms": [
+                {
+                  "matchExpressions": [
+                    {
+                      "key": "NodeType",
+                      "operator": "In",
+                      "values": ["{{ preferred_node }}"]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
 spec:
   schedule: 1 0 * * *
   jobTemplate:
