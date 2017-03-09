@@ -47,6 +47,12 @@ spec:
     spec:
       containers:
       - name: es-data
+        resources:
+          limits:
+            memory: 8Gi
+          requests:
+            memory: 2Gi
+            cpu: "0.1"
         securityContext:
           privileged: false
           capabilities:
