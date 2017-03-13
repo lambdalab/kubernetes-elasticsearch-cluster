@@ -49,9 +49,9 @@ spec:
       - name: es-data
         resources:
           limits:
-            memory: 8Gi
+            memory: {{ memory }}Gi
           requests:
-            memory: 2Gi
+            memory: {{ memory }}Gi
             cpu: "0.1"
         securityContext:
           privileged: false
@@ -81,7 +81,7 @@ spec:
         - name: HTTP_ENABLE
           value: "false"
         - name: "ES_JAVA_OPTS"
-          value: "-Xms8g -Xmx8g"
+          value: "-Xms{{ memory }}g -Xmx{{ memory }}g"
         - name: "NETWORK_HOST"
           value: "0.0.0.0"
         resources:
