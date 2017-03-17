@@ -49,9 +49,9 @@ spec:
       - name: es-data
         resources:
           limits:
-            memory: {{ memory }}Gi
+            memory: {{ elasticsearch.data_memory + 0.5 }}Gi
           requests:
-            memory: {{ memory }}Gi
+            memory: {{ elasticsearch.data_memory }}Gi
             cpu: "0.1"
         securityContext:
           privileged: false
@@ -81,12 +81,9 @@ spec:
         - name: HTTP_ENABLE
           value: "false"
         - name: "ES_JAVA_OPTS"
-          value: "-Xms{{ memory }}g -Xmx{{ memory }}g"
+          value: "-Xms{{ elasticsearch.data_memory }}g -Xmx{{ elasticsearch.data_memory }}g"
         - name: "NETWORK_HOST"
           value: "0.0.0.0"
-        resources:
-          requests:
-            memory: 8Gi
         ports:
         - containerPort: 9300
           name: transport
@@ -103,6 +100,6 @@ spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 100Gi
+          storage: {{ elasticsearch.data_size }}Gi
 
 
