@@ -6,36 +6,6 @@ metadata:
     component: elasticsearch
     role: client
   namespace: {{ namespace }}
-  annotations:
-    pod.beta.kubernetes.io/init-containers: '[
-      {
-      "name": "sysctl",
-        "image": "busybox",
-        "imagePullPolicy": "IfNotPresent",
-        "command": ["sysctl", "-w", "vm.max_map_count=262144"],
-        "securityContext": {
-          "privileged": true
-        }
-      }
-    ]'
-    scheduler.alpha.kubernetes.io/affinity: >
-        {
-          "nodeAffinity": {
-            "preferredDuringSchedulingIgnoredDuringExecution": {
-              "nodeSelectorTerms": [
-                {
-                  "matchExpressions": [
-                    {
-                      "key": "NodeType",
-                      "operator": "In",
-                      "values": ["{{ preferred_node }}"]
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
 spec:
   replicas: 2
   template:
@@ -43,6 +13,36 @@ spec:
       labels:
         component: elasticsearch
         role: client
+    annotations:
+      pod.beta.kubernetes.io/init-containers: '[
+        {
+        "name": "sysctl",
+          "image": "busybox",
+          "imagePullPolicy": "IfNotPresent",
+          "command": ["sysctl", "-w", "vm.max_map_count=262144"],
+          "securityContext": {
+            "privileged": true
+          }
+        }
+      ]'
+      scheduler.alpha.kubernetes.io/affinity: >
+          {
+            "nodeAffinity": {
+              "preferedDuringSchedulingIgnoredDuringExecution": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "NodeType",
+                        "operator": "In",
+                        "values": ["{{ preferred_node }}"]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
     spec:
       containers:
       - name: es-client

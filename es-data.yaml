@@ -6,36 +6,6 @@ metadata:
     component: elasticsearch
     role: data
   namespace: {{ namespace }}
-  annotations:
-    pod.beta.kubernetes.io/init-containers: '[
-      {
-      "name": "sysctl",
-        "image": "busybox",
-        "imagePullPolicy": "IfNotPresent",
-        "command": ["sysctl", "-w", "vm.max_map_count=262144"],
-        "securityContext": {
-          "privileged": true
-        }
-      }
-    ]'
-    scheduler.alpha.kubernetes.io/affinity: >
-        {
-          "nodeAffinity": {
-            "preferredDuringSchedulingIgnoredDuringExecution": {
-              "nodeSelectorTerms": [
-                {
-                  "matchExpressions": [
-                    {
-                      "key": "NodeType",
-                      "operator": "In",
-                      "values": ["{{ preferred_node }}"]
-                    }
-                  ]
-                }
-              ]
-            }
-          }
-        }
 spec:
   replicas: 3
   serviceName: "elasticsearch-data"
@@ -44,12 +14,43 @@ spec:
       labels:
         component: elasticsearch
         role: data
+      annotations:
+        pod.beta.kubernetes.io/init-containers: '[
+          {
+          "name": "sysctl",
+            "image": "busybox",
+            "imagePullPolicy": "IfNotPresent",
+            "command": ["sysctl", "-w", "vm.max_map_count=262144"],
+            "securityContext": {
+              "privileged": true
+            }
+          }
+        ]'
+        scheduler.alpha.kubernetes.io/affinity: >
+          {
+            "nodeAffinity": {
+              "requiredDuringSchedulingIgnoredDuringExecution": {
+                "nodeSelectorTerms": [
+                  {
+                    "matchExpressions": [
+                      {
+                        "key": "NodeType",
+                        "operator": "In",
+                        "values": ["{{ preferred_node }}"]
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
     spec:
       containers:
       - name: es-data
         resources:
           limits:
             memory: {{ elasticsearch.data_memory + 0.5 }}Gi
+            cpu: "2"
           requests:
             memory: {{ elasticsearch.data_memory }}Gi
             cpu: "0.1"
@@ -79,7 +80,7 @@ spec:
         - name: NODE_INGEST
           value: "false"
         - name: HTTP_ENABLE
-          value: "false"
+          value: "true"
         - name: "ES_JAVA_OPTS"
           value: "-Xms{{ elasticsearch.data_memory }}g -Xmx{{ elasticsearch.data_memory }}g"
         - name: "NETWORK_HOST"
