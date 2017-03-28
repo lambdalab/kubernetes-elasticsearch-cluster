@@ -96,7 +96,7 @@ spec:
   - metadata:
       name: storage
       annotations:
-        volume.beta.kubernetes.io/storage-class: "es-data-storage"
+        volume.beta.kubernetes.io/storage-class: "{{ storage_class }}"
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
