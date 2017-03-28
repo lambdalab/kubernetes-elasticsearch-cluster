@@ -10,7 +10,7 @@ spec:
   type: ClusterIP
   selector:
     component: elasticsearch
-    role: client
+    role: data
   ports:
   - name: http
     port: 9200

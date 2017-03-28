@@ -49,11 +49,11 @@ spec:
       - name: es-data
         resources:
           limits:
-            memory: {{ elasticsearch.data_memory + 0.5 }}Gi
-            cpu: "2"
+            memory: {{ elasticsearch.data_memory * 3 }}Gi
+            cpu: "{{ 1 * scale_factor }}"
           requests:
-            memory: {{ elasticsearch.data_memory }}Gi
-            cpu: "0.1"
+            memory: {{ elasticsearch.data_memory * 2 }}Gi
+            cpu: "{{ 0.3 * scale_factor }}"
         securityContext:
           privileged: false
           capabilities:
@@ -78,7 +78,7 @@ spec:
         - name: NODE_MASTER
           value: "false"
         - name: NODE_INGEST
-          value: "false"
+          value: "true"
         - name: HTTP_ENABLE
           value: "true"
         - name: "ES_JAVA_OPTS"

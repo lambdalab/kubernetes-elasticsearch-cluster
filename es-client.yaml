@@ -13,19 +13,19 @@ spec:
       labels:
         component: elasticsearch
         role: client
-    annotations:
-      pod.beta.kubernetes.io/init-containers: '[
-        {
-        "name": "sysctl",
-          "image": "busybox",
-          "imagePullPolicy": "IfNotPresent",
-          "command": ["sysctl", "-w", "vm.max_map_count=262144"],
-          "securityContext": {
-            "privileged": true
+      annotations:
+        pod.beta.kubernetes.io/init-containers: '[
+          {
+          "name": "sysctl",
+            "image": "busybox",
+            "imagePullPolicy": "IfNotPresent",
+            "command": ["sysctl", "-w", "vm.max_map_count=262144"],
+            "securityContext": {
+              "privileged": true
+            }
           }
-        }
-      ]'
-      scheduler.alpha.kubernetes.io/affinity: >
+        ]'
+        scheduler.alpha.kubernetes.io/affinity: >
           {
             "nodeAffinity": {
               "preferedDuringSchedulingIgnoredDuringExecution": {
@@ -46,6 +46,13 @@ spec:
     spec:
       containers:
       - name: es-client
+        resources:
+          limits:
+            memory: {{ 256 * scale_factor * 2 }}Mi
+            cpu: "{{ 0.6 * scale_factor }}"
+          requests:
+            memory: {{ 256 * scale_factor }}Mi
+            cpu: "{{ 0.1 * scale_factor }}"
         securityContext:
           privileged: false
           capabilities:
@@ -74,7 +81,7 @@ spec:
         - name: HTTP_ENABLE
           value: "true"
         - name: "ES_JAVA_OPTS"
-          value: "-Xms512m -Xmx512m"
+          value: "-Xms{{ 256 * scale_factor }}m -Xmx{{ 256 * scale_factor }}m"
         - name: "NETWORK_HOST"
           value: "0.0.0.0"
         ports:

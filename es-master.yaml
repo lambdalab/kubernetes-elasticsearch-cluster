@@ -46,6 +46,13 @@ spec:
     spec:
       containers:
       - name: es-master
+        resources:
+          limits:
+            memory: 1024Mi
+            cpu: "1.0"
+          requests:
+            memory: 512Mi
+            cpu: "0.1"
         securityContext:
           privileged: false
           capabilities:
