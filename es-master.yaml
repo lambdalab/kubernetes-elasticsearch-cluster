@@ -26,23 +26,45 @@ spec:
           }
         ]'
         scheduler.alpha.kubernetes.io/affinity: >
-          {
-            "nodeAffinity": {
-              "preferedDuringSchedulingIgnoredDuringExecution": {
-                "nodeSelectorTerms": [
+            {
+              "nodeAffinity": {
+                "requiredDuringSchedulingIgnoredDuringExecution": {
+                  "nodeSelectorTerms": [
+                    {
+                      "matchExpressions": [
+                        {
+                          "key": "NodeType",
+                          "operator": "In",
+                          "values": ["{{ preferred_node }}"]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "podAntiAffinity": {
+                "preferredDuringSchedulingIgnoredDuringExecution": [
                   {
-                    "matchExpressions": [
-                      {
-                        "key": "NodeType",
-                        "operator": "In",
-                        "values": ["{{ preferred_node }}"]
-                      }
-                    ]
-                  }
+                    "weight": 50,
+                    "labelSelector": {
+                      "matchExpressions": [
+                        {
+                          "key": "component",
+                          "operator": "In",
+                          "values": ["elasticsearch"]
+                        },
+                        {
+                          "key": "role",
+                          "operator": "In",
+                          "values": ["data"]
+                        }
+                      ]
+                    },
+                    "topologyKey": "kubernetes.io/hostname"
+                 }
                 ]
               }
             }
-          }
     spec:
       containers:
       - name: es-master
