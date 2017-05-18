@@ -74,7 +74,7 @@ spec:
             memory: {{ elasticsearch.data_memory * 3 }}Gi
             cpu: "{{ 1 * scale_factor }}"
           requests:
-            memory: {{ elasticsearch.data_memory * 2 }}Gi
+            memory: {{ elasticsearch.data_memory * 3 }}Gi
             cpu: "{{ 0.3 * scale_factor }}"
         securityContext:
           privileged: false
