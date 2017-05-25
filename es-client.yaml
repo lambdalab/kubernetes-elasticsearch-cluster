@@ -32,10 +32,10 @@ spec:
       - name: es-client
         resources:
           limits:
-            memory: {{ 256 * scale_factor * 2 }}Mi
+            memory: {{ 384 * scale_factor * 2 }}Mi
             cpu: "{{ 0.6 * scale_factor }}"
           requests:
-            memory: {{ 256 * scale_factor }}Mi
+            memory: {{ 384 * scale_factor * 2 }}Mi
             cpu: "{{ 0.1 * scale_factor }}"
         securityContext:
           privileged: false
@@ -65,7 +65,7 @@ spec:
         - name: HTTP_ENABLE
           value: "true"
         - name: "ES_JAVA_OPTS"
-          value: "-Xms{{ 256 * scale_factor }}m -Xmx{{ 256 * scale_factor }}m"
+          value: "-Xms{{ 384 * scale_factor }}m -Xmx{{ 384 * scale_factor }}m"
         - name: "NETWORK_HOST"
           value: "0.0.0.0"
         ports:

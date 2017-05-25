@@ -49,10 +49,10 @@ spec:
       - name: es-data
         resources:
           limits:
-            memory: {{ elasticsearch.data_memory * 3 }}Gi
+            memory: {{ elasticsearch.data_memory + elasticsearch.lucene_memory }}Gi
             cpu: "{{ 1 * scale_factor }}"
           requests:
-            memory: {{ elasticsearch.data_memory * 3 }}Gi
+            memory: {{ elasticsearch.data_memory + elasticsearch.lucene_memory }}Gi
             cpu: "{{ 0.3 * scale_factor }}"
         securityContext:
           privileged: false
