@@ -10,7 +10,7 @@ data:
       1:
         action: delete_indices
         description: >-
-          Delete indices older than 30 days (based on index name), for logstash-
+          Delete indices older than 21 days (based on index name), for logstash-
           prefixed indices. Ignore the error if the filter does not result in an
           actionable list of indices (ignore_empty_list) and exit cleanly.
         options:
@@ -27,12 +27,12 @@ data:
           direction: older
           timestring: '%Y.%m.%d'
           unit: days
-          unit_count: 30
+          unit_count: 21
           exclude:
       2:
         action: delete_indices
         description: >-
-          Delete indices older than 30 days (based on index name), for zipkin-
+          Delete indices older than 21 days (based on index name), for zipkin-
           prefixed indices. Ignore the error if the filter does not result in an
           actionable list of indices (ignore_empty_list) and exit cleanly.
         options:
@@ -49,7 +49,7 @@ data:
           direction: older
           timestring: '%Y-%m-%d'
           unit: days
-          unit_count: 30
+          unit_count: 21
           exclude:
   config.yml: |-
     ---

@@ -1,8 +1,0 @@
-# This file can't be executed using different namespace
-kind: StorageClass
-apiVersion: storage.k8s.io/v1beta1
-metadata:
-  name: es-data-storage
-provisioner: kubernetes.io/aws-ebs
-parameters:
-  type: gp2

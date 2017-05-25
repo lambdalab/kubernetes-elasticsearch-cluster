@@ -56,7 +56,7 @@ spec:
                         {
                           "key": "role",
                           "operator": "In",
-                          "values": ["data"]
+                          "values": ["master"]
                         }
                       ]
                     },
