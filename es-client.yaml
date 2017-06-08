@@ -25,25 +25,9 @@ spec:
             }
           }
         ]'
-        scheduler.alpha.kubernetes.io/affinity: >
-          {
-            "nodeAffinity": {
-              "preferedDuringSchedulingIgnoredDuringExecution": {
-                "nodeSelectorTerms": [
-                  {
-                    "matchExpressions": [
-                      {
-                        "key": "NodeType",
-                        "operator": "In",
-                        "values": ["{{ preferred_node }}"]
-                      }
-                    ]
-                  }
-                ]
-              }
-            }
-          }
     spec:
+      nodeSelector:
+        NodeType: {{ preferred_node }}
       containers:
       - name: es-client
         resources:
