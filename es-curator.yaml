@@ -4,6 +4,9 @@ metadata:
   name: curator
   namespace: {{ namespace }}
 spec:
+  successfulJobsHistoryLimit: 5
+  failedJobsHistoryLimit: 5
+  concurrencyPolicy: Replace
   schedule: 1 0 * * *
   jobTemplate:
     spec:
