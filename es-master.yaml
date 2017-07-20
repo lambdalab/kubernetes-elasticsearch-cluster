@@ -1,5 +1,5 @@
-apiVersion: extensions/v1beta1
-kind: Deployment
+apiVersion: apps/v1beta1
+kind: StatefulSet
 metadata:
   name: es-master
   labels:
@@ -8,6 +8,7 @@ metadata:
   namespace: {{ namespace }}
 spec:
   replicas: 3
+  serviceName: "elasticsearch-discovery"
   template:
     metadata:
       labels:
@@ -59,7 +60,7 @@ spec:
             add:
               - IPC_LOCK
               - SYS_RESOURCE
-        image: lambdalab/elasticsearch-xpack:5.4.0
+        image: lambdalab/elasticsearch-xpack:5.5.0
         imagePullPolicy: Always
         env:
         - name: NAMESPACE
