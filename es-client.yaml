@@ -44,6 +44,18 @@ spec:
               - IPC_LOCK
               - SYS_RESOURCE
         image: lambdalab/elasticsearch-xpack:5.5.0
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 9200
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 9200
+          initialDelaySeconds: 60
+          periodSeconds: 30
         imagePullPolicy: Always
         env:
         - name: NAMESPACE
