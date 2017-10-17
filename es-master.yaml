@@ -8,6 +8,8 @@ metadata:
   namespace: {{ namespace }}
 spec:
   replicas: 3
+  updateStrategy:
+    type: RollingUpdate
   serviceName: "elasticsearch-discovery"
   template:
     metadata:
