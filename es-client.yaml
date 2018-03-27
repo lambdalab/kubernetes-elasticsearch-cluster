@@ -43,7 +43,7 @@ spec:
             add:
               - IPC_LOCK
               - SYS_RESOURCE
-        image: lambdalab/elasticsearch-xpack:5.5.0
+        image: lambdalab/elasticsearch-xpack:5.5.2
         readinessProbe:
           httpGet:
             path: /
